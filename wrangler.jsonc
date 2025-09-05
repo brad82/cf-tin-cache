@@ -12,7 +12,7 @@
 	},
 	"routes": [
     {
-      "pattern": "https://mblsoftskills.com/ucTinCan/statements*",
+      "pattern": "https://staging.mblsoftskills.com/ucTinCan/statements*",
       "zone_name": "mblsoftskills.com"
     },
 	],
