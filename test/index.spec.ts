@@ -24,6 +24,8 @@ const TinCanRequest = {
 
 beforeAll(async () => {
 	const verbs = [
+		'http://adlnet.gov/expapi/verbs/attempted',
+		'http://adlnet.gov/expapi/verbs/answered',
 		'http://adlnet.gov/expapi/verbs/completed',
 		'http://adlnet.gov/expapi/verbs/passed',
 		'http://adlnet.gov/expapi/verbs/failed',
