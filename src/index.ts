@@ -1,18 +1,21 @@
 /**
- * Welcome to Cloudflare Workers! This is your first worker.
- *
- * - Run `npm run dev` in your terminal to start a development server
- * - Open a browser tab at http://localhost:8787/ to see your worker in action
- * - Run `npm run deploy` to publish your worker
- *
- * Bind resources to your worker in `wrangler.jsonc`. After adding bindings, a type definition for the
- * `Env` object can be regenerated with `npm run cf-typegen`.
- *
- * Learn more at https://developers.cloudflare.com/workers/
+ * TinCache proxy
  */
+
+import { UCTinCanStatementRequest } from './types';
 
 export default {
 	async fetch(request, env, ctx): Promise<Response> {
-		return new Response('Hello World!');
+		//const path = '/ucTinCan/statements';
+
+		let verbs = JSON.parse((await env.TIN_CACHE.get('TC_VERB_WHITELIST')) ?? '[]');
+		const body = (await request.json()) as UCTinCanStatementRequest;
+		
+		// Allow whitelisted verbs to continue straight to the server.
+		if (verbs.includes(body.verb.id)) {
+			return await fetch(request);
+		}
+
+		return new Response(JSON.stringify([body.id]), { status: 202, statusText: 'Accepted' });
 	},
 } satisfies ExportedHandler<Env>;
